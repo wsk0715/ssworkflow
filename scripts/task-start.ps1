@@ -41,7 +41,7 @@ if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
     Write-Warning "[WARN] GitHub CLI (gh) was not found."
     $response = Read-Host "  [?] Would you like to run installation script to install it now? [Y/n]"
     if ($response -eq 'y' -or $response -eq 'Y' -or [string]::IsNullOrWhiteSpace($response)) {
-        . .\utils\install-gh.ps1
+        . .\install-gh.ps1
         if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
             Write-Error "[ERROR] GitHub CLI is still not found. Please restart your terminal."
             exit 1
