@@ -22,7 +22,7 @@ if ! command -v gh &> /dev/null; then
   echo "[WARN] GitHub CLI (gh) was not found."
   read -p "  [?] Would you like to run installation script to install it now? [Y/n] " INSTALL_CHOICE
   if [[ "$INSTALL_CHOICE" =~ ^[Yy]$ || -z "$INSTALL_CHOICE" ]]; then
-    source ./utils/install-gh.sh
+    source ./install-gh.sh
     if ! command -v gh &> /dev/null; then
       echo "[ERROR] GitHub CLI is still not found. Please restart your terminal."
       exit 1
