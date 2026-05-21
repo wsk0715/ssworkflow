@@ -97,9 +97,20 @@ echo ""
 echo -e "\033[34m[3/3] Executing Git & GitHub automation...\033[0m"
 echo -e "\033[90m------------------------------------------\033[0m"
 
-# 1. Fetch from remote repository
-echo -e "  [+] Fetching from origin..."
-git fetch origin || { echo "[ERROR] Git fetch failed."; exit 1; }
+# 1. Fetch from remote repository & Prune remote-tracking branches
+echo -e "  [+] Fetching from origin and pruning deleted branches..."
+git fetch origin --prune || { echo "[ERROR] Git fetch failed."; exit 1; }
+
+# Clean up local branches whose tracking branches are gone (already merged and deleted on remote)
+GONE_BRANCHES=$(git branch -vv | grep ': gone]' | awk '{print $1}' | tr -d '*' | xargs)
+if [ -n "$GONE_BRANCHES" ]; then
+  echo -e "  [+] Cleaning up merged local branches..."
+  for b in $GONE_BRANCHES; do
+    if [ "$b" != "dev" ] && [ "$b" != "main" ]; then
+      git branch -d "$b" &>/dev/null
+    fi
+  done
+fi
 
 # 1.5. Check if branch or PR already exists to prevent duplicate tasks
 echo -e "  [+] Checking for existing branches or PRs for Task $TASK_ID..."
