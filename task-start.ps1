@@ -123,12 +123,26 @@ Write-Host ""
 Write-Host "[3/3] Executing Git & GitHub automation..." -ForegroundColor Blue
 Write-Host "------------------------------------------" -ForegroundColor DarkGray
 
-# 1. Fetch from remote repository
-Write-Host "  [+] Fetching from origin..." -ForegroundColor Yellow
-git fetch origin
+# 1. Fetch from remote repository & Prune remote-tracking branches
+Write-Host "  [+] Fetching from origin and pruning deleted branches..." -ForegroundColor Yellow
+git fetch origin --prune
 if ($LASTEXITCODE -ne 0) {
     Write-Error "[ERROR] Git fetch failed."
     exit 1
+}
+
+# Clean up local branches whose tracking branches are gone (already merged and deleted on remote)
+$GoneBranches = git branch -vv | Where-Object { $_ -match '\[origin/.*: gone\]' }
+if ($GoneBranches) {
+    Write-Host "  [+] Cleaning up merged local branches..." -ForegroundColor Yellow
+    foreach ($Line in $GoneBranches) {
+        if ($Line -match '^\s*\*?\s*([^\s]+)\s+') {
+            $BranchToDelete = $Matches[1]
+            if ($BranchToDelete -ne "dev" -and $BranchToDelete -ne "main") {
+                git branch -d $BranchToDelete > $null 2>&1
+            }
+        }
+    }
 }
 
 # 1.5. Check if branch or PR already exists to prevent duplicate tasks
