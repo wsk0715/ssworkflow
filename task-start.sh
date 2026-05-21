@@ -195,6 +195,7 @@ git checkout -b $BRANCH_NAME origin/$BASE_BRANCH || { echo "[ERROR] Failed to cr
 
 # 4. Create initial empty commit
 echo -e "  [+] Creating initial empty commit..."
+git reset &>/dev/null
 git commit --allow-empty -m "chore: start task-$TASK_ID" -m "[skip ci]" || { echo "[ERROR] Failed to create initial empty commit."; exit 1; }
 
 # 5. Push to remote and set upstream

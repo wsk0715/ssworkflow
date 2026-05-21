@@ -1,4 +1,4 @@
-﻿# ==========================================
+# ==========================================
 #        *** GitHub Task Starter ***
 # ==========================================
 
@@ -206,6 +206,7 @@ if ($LASTEXITCODE -ne 0) {
 
 # 4. Create initial empty commit
 Write-Host "  [+] Creating initial empty commit..." -ForegroundColor Yellow
+git reset > $null 2>&1
 git commit --allow-empty -m "chore: start task-$TaskId" -m "[skip ci]"
 if ($LASTEXITCODE -ne 0) {
     Write-Error "[ERROR] Failed to create initial empty commit."
