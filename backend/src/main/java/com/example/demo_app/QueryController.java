@@ -24,6 +24,7 @@ public class QueryController {
     public QueryResult query(
             @RequestBody QueryRequest query,
             @RequestHeader(value = "X-Employee-Id", required = false) String employeeId) {
+
         log.info("Request from Employee ID: {}", employeeId);
         return nl2sqlService.ask(query.question(), employeeId);
     }
