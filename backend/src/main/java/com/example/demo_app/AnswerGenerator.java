@@ -16,6 +16,6 @@ public interface AnswerGenerator {
     @UserMessage("""
         question: {{question}}
         result: {{result}}
-        """)
+        """
     String generateAnswer(@V("question") String question, @V("result") String result);
 }
