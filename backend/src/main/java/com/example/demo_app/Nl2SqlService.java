@@ -103,6 +103,10 @@ public class Nl2SqlService {
             log.info("구현과_관련없는_로그");
         }
         
+        if (true){
+            log.info("몽키_매직");
+        }
+
         // 3. Block dangerous keywords
         String[] forbiddenKeywords = {"INSERT", "UPDATE", "DELETE", "DROP", "ALTER", "TRUNCATE", "CREATE"};
         for (String keyword : forbiddenKeywords) {
