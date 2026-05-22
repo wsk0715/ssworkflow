@@ -8,6 +8,7 @@ language: "ko-KR"
 # 리뷰 스타일
 reviews:
   profile: "chill"         # [Profile] chill(부드럽게) 또는 assertive(깐깐하게)
+  auto_review_all_branches: true
   request_changes_workflow: false # [Request changes workflow] 자동 승인 여부
   abort_on_close: true     # [Abort on close] PR이 닫히면 리뷰 중단
   disable_cache: false     # [Disable cache] 종속성/코드 캐시 비활성화
