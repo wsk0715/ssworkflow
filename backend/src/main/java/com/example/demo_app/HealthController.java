@@ -16,7 +16,6 @@ public class HealthController {
 
     @GetMapping("/health")
     public HealthCheck health() {
-        throw new RuntimeException("토끼사냥");
         return healthMapper.check();
     }
 }
