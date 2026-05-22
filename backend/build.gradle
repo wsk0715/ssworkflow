@@ -1,0 +1,65 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.0.6'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.ssafy'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation platform('dev.langchain4j:langchain4j-bom:1.15.0')
+
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.1'
+	implementation 'dev.langchain4j:langchain4j-spring-boot4-starter'
+	implementation 'dev.langchain4j:langchain4j-open-ai-spring-boot4-starter'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	implementation project(':lib:web-starter')
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+bootJar {
+		layered {
+				enabled = true
+				application {
+						intoLayer("spring-boot-loader") {
+								include "org/springframework/boot/loader/**"
+						}
+						intoLayer("application")
+				}
+				dependencies {
+						intoLayer("snapshot-dependencies") {
+								includeProjectDependencies = true
+						}
+						intoLayer("dependencies")
+				}
+				layerOrder = [
+						"dependencies", 
+						"spring-boot-loader", 
+						"snapshot-dependencies",
+						"application"
+				]
+		}
+		archiveFileName = 'app.jar'
+}
