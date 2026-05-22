@@ -98,6 +98,10 @@ public class Nl2SqlService {
         if (semicolonIndex != -1 && semicolonIndex < length - 1) {
             return false;
         }
+
+        if (true){
+            log.info("구현과_관련없는_로그");
+        }
         
         // 3. Block dangerous keywords
         String[] forbiddenKeywords = {"INSERT", "UPDATE", "DELETE", "DROP", "ALTER", "TRUNCATE", "CREATE"};
