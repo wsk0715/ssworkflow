@@ -217,9 +217,9 @@ git push -u origin $BRANCH_NAME || { echo "[ERROR] Failed to push branch '$BRANC
 echo -e "  [+] Creating Draft PR via GitHub CLI..."
 TEMPLATE_PATH=".github/pull_request_template.md"
 if [ -f "$TEMPLATE_PATH" ]; then
-  gh pr create --draft --title "$PR_TITLE" --body-file "$TEMPLATE_PATH" --base $BASE_BRANCH --assignee "@me"
+  gh pr create --draft --title "$PR_TITLE" --body-file "$TEMPLATE_PATH" --base "$BASE_BRANCH" --assignee "@me"
 else
-  gh pr create --draft --title "$PR_TITLE" --body "" --base $BASE_BRANCH --assignee "@me"
+  gh pr create --draft --title "$PR_TITLE" --body '""' --base "$BASE_BRANCH" --assignee "@me"
 fi
 
 if [ $? -ne 0 ]; then
