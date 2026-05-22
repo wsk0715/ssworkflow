@@ -6,4 +6,3 @@ import lombok.Data;
 public class HealthCheck {
     private String status;
     private String currentTime;
-}
