@@ -239,9 +239,9 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "  [+] Creating Draft PR via GitHub CLI..." -ForegroundColor Yellow
 $TemplatePath = ".github/pull_request_template.md"
 if (Test-Path $TemplatePath) {
-    gh pr create --draft --title $PrTitle --body-file $TemplatePath --base $BaseBranch --assignee "@me"
+    gh pr create --draft --title "$PrTitle" --body-file "$TemplatePath" --base "$BaseBranch" --assignee "@me"
 } else {
-    gh pr create --draft --title $PrTitle --body "" --base $BaseBranch --assignee "@me"
+    gh pr create --draft --title "$PrTitle" --body '""' --base "$BaseBranch" --assignee "@me"
 }
 
 if ($LASTEXITCODE -ne 0) {
