@@ -30,5 +30,5 @@ reviews:
   # 파일 필터링 [Path filters]
   # (글로브 패턴 사용, !로 시작하면 리뷰 제외)
   path_filters:
-    - "src/main/java/**"           # 자바 소스코드는 무조건 포함
+    - "**/*.java"                  # 자바 소스코드는 무조건 포함
     - "!*.md"                      # 마크다운 문서 제외
