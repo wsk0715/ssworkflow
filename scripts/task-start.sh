@@ -201,6 +201,21 @@ if ! git branch -r | grep -q "origin/$BASE_BRANCH"; then
 fi
 
 # 3. Create and checkout new branch from origin/$BASE_BRANCH
+# Clean up existing local/remote branch with the same name if they exist
+if git branch --list "$BRANCH_NAME" | grep -q "$BRANCH_NAME"; then
+  echo -e "  [-] Existing local branch '$BRANCH_NAME' found. Deleting..."
+  CURRENT_BRANCH=$(git branch --show-current)
+  if [ "$CURRENT_BRANCH" = "$BRANCH_NAME" ]; then
+    git checkout $BASE_BRANCH || git checkout main || :
+  fi
+  git branch -D $BRANCH_NAME || { echo "[ERROR] Failed to delete local branch '$BRANCH_NAME'."; exit 1; }
+fi
+
+if git branch -r --list "origin/$BRANCH_NAME" | grep -q "origin/$BRANCH_NAME"; then
+  echo -e "  [-] Existing remote branch 'origin/$BRANCH_NAME' found. Deleting..."
+  git push origin --delete $BRANCH_NAME || { echo "[ERROR] Failed to delete remote branch '$BRANCH_NAME'."; exit 1; }
+fi
+
 echo -e "  [+] Creating branch '$BRANCH_NAME' from 'origin/$BASE_BRANCH'..."
 git checkout -b $BRANCH_NAME origin/$BASE_BRANCH || { echo "[ERROR] Failed to create or checkout branch '$BRANCH_NAME'."; exit 1; }
 
