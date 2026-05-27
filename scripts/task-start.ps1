@@ -211,6 +211,31 @@ if (-not $HasDev) {
 }
 
 # 3. Create and checkout new branch from origin/dev
+# Clean up existing local/remote branch with the same name if they exist
+$LocalExists = git branch --list $BranchName
+if ($LocalExists) {
+    Write-Host "  [-] Existing local branch '$BranchName' found. Deleting..." -ForegroundColor Yellow
+    $CurrentBranch = git branch --show-current
+    if ($CurrentBranch -eq $BranchName) {
+        git checkout $BaseBranch > $null 2>&1
+    }
+    git branch -D $BranchName
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "[ERROR] Failed to delete local branch '$BranchName'."
+        exit 1
+    }
+}
+
+$RemoteExists = git branch -r --list "origin/$BranchName"
+if ($RemoteExists) {
+    Write-Host "  [-] Existing remote branch 'origin/$BranchName' found. Deleting..." -ForegroundColor Yellow
+    git push origin --delete $BranchName
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "[ERROR] Failed to delete remote branch '$BranchName'."
+        exit 1
+    }
+}
+
 Write-Host "  [+] Creating branch '$BranchName' from 'origin/$BaseBranch'..." -ForegroundColor Yellow
 git checkout -b $BranchName origin/$BaseBranch
 if ($LASTEXITCODE -ne 0) {
