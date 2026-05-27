@@ -1,6 +1,6 @@
 ---
-name: Feature Task
-about: 노션 태스크 연동
+name: 기본 템플릿
+about: 노션 태스크 연동을 위한 기본 템플릿
 title: "[TASK-XX] "
 labels: 
 ---
