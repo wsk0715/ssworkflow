@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: demo-app
+
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    
+  output:
+    ansi:
+      enabled: always
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.demo_app.model
+  configuration:
+    map-underscore-to-camel-case: true
+
+langchain4j:
+  open-ai:
+    chat-model:
+      base-url: https://api.upstage.ai/v1/solar
+      api-key: dummy-key-for-test
+      model-name: solar-mini
